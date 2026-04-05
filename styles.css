@@ -1,0 +1,306 @@
+:root {
+  --soft-red: hsl(345, 95%, 68%);
+  --grayish-blue: hsl(237, 18%, 59%);
+  --card-bottom: hsl(236, 21%, 26%);
+  --card-top: hsl(235, 20%, 22%);
+  --page-top: hsl(234, 17%, 12%);
+  --page-bottom: hsl(235, 16%, 14%);
+  --white: hsl(0, 0%, 100%);
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Red Hat Text", sans-serif;
+  font-weight: 700;
+  color: var(--white);
+  background:
+    url("./images/pattern-hills.svg") center bottom / 100% auto no-repeat,
+    url("./images/bg-stars.svg") center top / cover no-repeat,
+    linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
+  display: grid;
+  place-items: center;
+  padding: 2.5rem 1rem 1rem;
+}
+
+.countdown-app {
+  width: min(46rem, 100%);
+  min-height: 78vh;
+  display: grid;
+  align-content: space-between;
+  justify-items: center;
+  gap: 2.5rem;
+}
+
+.title {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  text-align: center;
+  font-size: clamp(1.05rem, 1.4vw + 0.8rem, 1.5rem);
+}
+
+.timer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(4.25rem, 1fr));
+  gap: clamp(0.75rem, 2vw, 2rem);
+}
+
+.timer-segment {
+  text-align: center;
+}
+
+.flip-card {
+  position: relative;
+  height: clamp(4.75rem, 12vw, 8.5rem);
+  border-radius: 0.55rem;
+  perspective: 720px;
+  box-shadow: 0 0.6rem 0 0 #191a24;
+  isolation: isolate;
+}
+
+.flip-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.06),
+    rgba(0, 0, 0, 0.12)
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Side holes at the card's horizontal dividing line */
+.flip-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 6;
+  background:
+    radial-gradient(circle at center, var(--page-top) 47%, transparent 48%) -7px
+      center / 14px 14px no-repeat,
+    radial-gradient(circle at center, var(--page-top) 47%, transparent 48%)
+      calc(100% + 7px) center / 14px 14px no-repeat;
+}
+
+.flip-static {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.half {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: var(--card-top);
+}
+
+.half-top {
+  top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.half-bottom {
+  bottom: 0;
+  background: var(--card-bottom);
+}
+
+.number {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--soft-red);
+  font-size: clamp(2rem, 4.6vw, 4.8rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.half-top .number {
+  top: 42%;
+}
+
+.half-bottom .number {
+  top: -58%;
+}
+
+.flip-layer {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  display: none;
+  z-index: 3;
+}
+
+.flip-layer .number {
+  text-shadow: 0 2px 6px var(--shadow);
+}
+
+.flip-top {
+  top: 0;
+  background: var(--card-top);
+  transform-origin: bottom center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.flip-top .number {
+  top: 42%;
+}
+
+.flip-bottom {
+  bottom: 0;
+  background: var(--card-bottom);
+  transform-origin: top center;
+}
+
+.flip-bottom .number {
+  top: -58%;
+}
+
+.flip-card.is-flipping .flip-layer {
+  display: block;
+}
+
+.flip-card.is-flipping .flip-top {
+  animation: flipTop 0.34s ease-in forwards;
+}
+
+.flip-card.is-flipping .flip-bottom {
+  animation: flipBottom 0.34s ease-out 0.34s both;
+}
+
+.segment-label {
+  margin: 1rem 0 0;
+  color: var(--grayish-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  font-size: clamp(0.5rem, 1vw, 0.8rem);
+}
+
+.social-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.social-links a {
+  display: inline-grid;
+  place-items: center;
+}
+
+.social-links a img {
+  display: block;
+  transition: filter 180ms ease;
+}
+
+.social-links a:hover img,
+.social-links a:focus-visible img {
+  filter: brightness(0) saturate(100%) invert(60%) sepia(74%) saturate(1585%)
+    hue-rotate(304deg) brightness(106%) contrast(96%);
+}
+
+.attribution {
+  margin-top: 1.75rem;
+  font-size: 0.6875rem;
+  text-align: center;
+  color: var(--grayish-blue);
+}
+
+.attribution a {
+  color: var(--soft-red);
+}
+
+.sr-only {
+  border: 0;
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@keyframes flipTop {
+  from {
+    transform: rotateX(0deg);
+  }
+
+  to {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes flipBottom {
+  from {
+    transform: rotateX(90deg);
+  }
+
+  to {
+    transform: rotateX(0deg);
+  }
+}
+
+@media (max-width: 37.5em) {
+  body {
+    padding-top: 5.5rem;
+  }
+
+  .timer {
+    gap: 0.7rem;
+  }
+
+  .flip-card {
+    border-radius: 0.4rem;
+  }
+
+  .segment-label {
+    letter-spacing: 0.22em;
+  }
+
+  .social-links {
+    gap: 1.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
