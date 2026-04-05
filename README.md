@@ -90,4 +90,4 @@ What worked well: using it to talk through trade-offs before implementing, and f
 ## Author
 
 - Website - [My Site](https://github.com/troy71)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/troy71)
+- Frontend Mentor - (https://www.frontendmentor.io/profile/troy71)
