@@ -6,10 +6,16 @@ const root = document.querySelector(".countdown-app");
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
+const flipAnimationSetting =
+  root?.dataset.flipAnimation?.trim().toLowerCase() ?? "auto";
 const flipAnimationEnabled =
-  root?.dataset.flipAnimation !== "false" &&
-  root?.dataset.flipAnimation !== "off" &&
-  !prefersReducedMotion;
+  (flipAnimationSetting === "true" || flipAnimationSetting === "on") ||
+  ((flipAnimationSetting === "auto" || flipAnimationSetting === "") &&
+    !prefersReducedMotion);
+
+if (flipAnimationSetting === "true" || flipAnimationSetting === "on") {
+  document.documentElement.classList.add("force-motion");
+}
 
 const segments = {
   days: createSegmentController("days"),
